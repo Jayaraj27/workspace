@@ -92,6 +92,33 @@ delete(node_t **head,
     return rc;
 }
 
+static void
+reverse_list(node_t **head)
+{
+    node_t *iter = *head;
+    node_t *temp;
+    node_t *temp1;
+
+    if (!iter->next && !iter->prev) {
+        return;
+    }
+
+    temp = iter;
+    iter = iter->next;
+
+    while (temp && iter) {
+        temp1 = temp->next;
+        temp->next = temp->prev;
+        temp->prev = temp1;
+        temp = iter;
+        iter = iter->next;
+    }
+    temp1 = temp->next;
+    temp->next = temp->prev;
+    temp->prev = temp1;
+    *head = temp;
+}
+
 int
 main(int  argc,
      char **argv)
@@ -104,11 +131,12 @@ main(int  argc,
         printf("Insert       : 1\n");
         printf("Display      : 2\n");
         printf("Delete       : 3\n");
+        printf("Reverse list : 4\n");
         printf("Enter choice : ");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-              printf("Enter number :");
+              printf("Enter number : ");
               scanf("%d", &num);
               if (insert(&head, num)) {
                   printf("Element inserted successfully\n");
@@ -120,13 +148,16 @@ main(int  argc,
               display(head);
               break;
             case 3:
-              printf("Enter number to be deleted:");
+              printf("Enter number to be deleted: ");
               scanf("%d", &num);
               if (delete(&head, num)) {
                   printf("Element %d deleted successfully\n", num);
               } else {
                   printf("Element not found or list empty!!!\n");
               }
+              break;
+            case 4:
+              reverse_list(&head);
               break;
             default:
               printf("Invalid choice\n");

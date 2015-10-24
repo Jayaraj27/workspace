@@ -15,8 +15,14 @@
 typedef struct node_s
 {
     int           num;
-    struct node_s *next;
-    struct node_s *prev;
+    union {
+        struct node_s *next;
+        struct node_s *right;
+    };
+    union {
+        struct node_s *prev;
+        struct node_s *left;
+    };
 } node_t;
 
 
