@@ -15,6 +15,7 @@
 typedef struct node_s
 {
     int           num;
+    struct node_s *parent;
     union {
         struct node_s *next;
         struct node_s *right;
