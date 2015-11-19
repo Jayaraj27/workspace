@@ -18,9 +18,7 @@ find_edit_distance(char         *s1,
                    unsigned int len_s1,
                    unsigned int len_s2)
 {
-    bool         swap = 0;
-    bool         delete = 0;
-    bool         add = 0;
+    bool         flag = 0;
     unsigned int i = 0;
     unsigned int j = 0;
 
@@ -34,23 +32,23 @@ find_edit_distance(char         *s1,
             j++;
         } else {
             if (s1[i+1] == s2[j+1]) {
-                if (swap || delete || add) {
+                if (flag) {
                     return 0;
                 }
-                swap = 1;
+                flag = 1;
                 i++;
                 j++;
             } else if (s1[i] == s2[j + 1]) {
-                if (swap || delete || add) {
+                if (flag) {
                     return 0;
                 }
-                add = 1;
+                flag = 1;
                 j++;
             }  else if (s1[i + 1] == s2[j]) {
-                if (swap || delete || add) {
+                if (flag) {
                     return 0;
                 }
-                delete = 1;
+                flag = 1;
                 i++;
             }
         }
