@@ -5,6 +5,13 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define SWAP(x, y) do \
+{                     \
+    x ^= y;           \
+    y ^= x;           \
+    x ^= y;           \
+} while (0)
+
 static bool
 vowel_test(char ch)
 {
@@ -26,32 +33,32 @@ reverse_vowels(char *string)
     unsigned int i, front = 0, back;
     unsigned int len = strlen(string);
 
-    back = len - 1;
+    if (string) {
+        char *end = string + strlen(string) - 1;
 
-    while (1) {
-        while (front < len/2) {
-            if (vowel_test(string[front])) {
-                break;
+        while (string < end) {
+            while (string < end) {
+                if (vowel_test(*string)) {
+                    break;
+                }
+                string++;
             }
-            front++;
-        }
-        if (front >= (len/2)) {
-            return;
-        }
-        while (back > len/2) {
-            if (vowel_test(string[back - i])) {
-                break;
+            while (string < end) {
+                if (vowel_test(*end)) {
+                    break;
+                }
+                end--;
             }
-            back--;
+
+            if (string >= end) {
+                return;
+            }
+
+            SWAP(*string, *end);
+
+            string++;
+            end--;
         }
-        if (back <= (len/2)) {
-            return;
-        }
-        string[front] ^= string[back - i];
-        string[back - i] ^= string[front];
-        string[front] ^= string[back - i];
-        front++;
-        back--;
     }
 }
 
