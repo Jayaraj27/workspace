@@ -30,9 +30,6 @@ vowel_test(char ch)
 static void
 reverse_vowels(char *string)
 {
-    unsigned int i, front = 0, back;
-    unsigned int len = strlen(string);
-
     if (string) {
         char *end = string + strlen(string) - 1;
 
