@@ -92,6 +92,45 @@ delete(node_t **head,
     return rc;
 }
 
+static bool
+new_delete(node_t **head,
+       int    num)
+{
+    bool   rc = FAILURE;
+    node_t *temp = *head;
+    node_t *free_node = NULL;
+
+    if (!temp) {
+        return FAILURE;
+    }
+
+    while ((*head)->num == num) {
+        free_node = *head;
+        *head = free_node->next;
+        free(free_node);
+        rc = SUCCESS;
+    }
+
+    temp = *head;
+    
+    while (temp) {
+        if (temp->num == num) {
+            free_node = temp;
+            temp->prev->next = temp->next;
+            if (temp->next) {
+                temp->next->prev = temp->prev;
+            }
+            temp = temp->next;
+            free(free_node);
+            rc = SUCCESS;
+            continue;
+        }
+        temp = temp->next;
+    }
+
+    return rc;
+}
+
 static void
 reverse_list(node_t **head)
 {
@@ -119,6 +158,24 @@ reverse_list(node_t **head)
     *head = temp;
 }
 
+static void
+delete_list(node_t **head)
+{
+    if (*head) {
+        node_t *temp;
+
+        while (*head) {
+            temp = *head;
+            *head = (*head)->next;
+            free(temp);
+        }
+        printf("List is deleted\n");
+    } else {
+        printf("List is empty\n");
+    }
+}
+
+
 int
 main(int  argc,
      char **argv)
@@ -128,11 +185,12 @@ main(int  argc,
     node_t *head = NULL;
 
     while (1) {
-        printf("Insert       : 1\n");
-        printf("Display      : 2\n");
-        printf("Delete       : 3\n");
-        printf("Reverse list : 4\n");
-        printf("Enter choice : ");
+        printf("Insert             : 1\n");
+        printf("Display            : 2\n");
+        printf("Delete element     : 3\n");
+        printf("Reverse list       : 4\n");
+        printf("Delete entire list : 5\n");
+        printf("Enter choice       : ");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
@@ -150,7 +208,7 @@ main(int  argc,
             case 3:
               printf("Enter number to be deleted: ");
               scanf("%d", &num);
-              if (delete(&head, num)) {
+              if (new_delete(&head, num)) {
                   printf("Element %d deleted successfully\n", num);
               } else {
                   printf("Element not found or list empty!!!\n");
@@ -158,6 +216,9 @@ main(int  argc,
               break;
             case 4:
               reverse_list(&head);
+              break;
+            case 5:
+              delete_list(&head);
               break;
             default:
               printf("Invalid choice\n");
