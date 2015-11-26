@@ -8,7 +8,7 @@ int
 main(int  argc,
      char **argv)
 {
-    uint32_t ip_addr = 0x0A0A0A03;
+    uint32_t ip_addr;
     char     ip_string[16];
 
     printf("Enter IP address as a unsigned integer in hex(ex: 0xA0A0A0A): ");
