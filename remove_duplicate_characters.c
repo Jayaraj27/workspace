@@ -42,6 +42,6 @@ main(int  argc,
         *(current + 1) = *next;
     }
 
-    printf("After string is %s", str);
+    printf("After string is %s\n", str);
     return 0;
 }
