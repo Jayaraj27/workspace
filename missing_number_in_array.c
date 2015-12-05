@@ -29,11 +29,11 @@ find_missing_number(int arr[],
             bad = current;
         }
         if ((arr[good] == (good + 1)) && (arr[good + 1] == (good + 3))) {
-            return (good + 2);
+            break;
         }
     } while (1);
 
-    return (good + 1);
+    return (good + 2);
 
 }
 
