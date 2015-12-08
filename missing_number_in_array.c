@@ -21,7 +21,6 @@ find_missing_number(int arr[],
     }
 
     do {
-        iter++;
         current = good + (bad - good) / 2;
         if (arr[current] == (current + 1)) {
             good = current;
