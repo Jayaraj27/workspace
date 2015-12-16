@@ -12,7 +12,7 @@ main(int  argc,
 
     printf("Enter number: ");
     scanf("%d", &num);
-    int mask = num >> (sizeof(int) * (8 - 1));
+    int mask = num >> ((sizeof(int) * 8) - 1);
     result = (num + mask) ^ mask;
 
     printf("Abs is %u\n", result);
