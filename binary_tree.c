@@ -275,17 +275,39 @@ is_bst(node_t *root)
     return TRUE;
 }
 
+static uint32_t
+find_diameter(node_t   *root,
+              uint32_t *diameter)
+{
+    uint32_t left_height = 0;
+    uint32_t right_height = 0;
+
+    if (!root) {
+        return 0;
+    }
+
+    left_height += find_diameter(root->left, diameter) + 1;
+    right_height += find_diameter(root->right, diameter) + 1;
+
+    if ((left_height + right_height - 1) > *diameter) {
+        *diameter = left_height + right_height - 1;
+    }
+
+    return (left_height > right_height ? left_height : right_height);
+}
+
 int
 main(int  argc,
      char **argv)
 {
+    int          arr[] = {128, 64, 32, 16, 8, 4, 2, 6, 12, 24, 20, 48, 40, 256, 192};
     int          choice;
     int          num;
-    int          arr[] = {128, 64, 32, 16, 8, 4, 2, 6, 12, 24, 20, 48, 40, 256, 192};
+    node_t       *node_p = NULL;
     node_t       *root = NULL;
+    uint32_t     diameter = 0;;
     unsigned int height;
     unsigned int i;
-    node_t       *node_p = NULL;
 
     while (1) {
         printf("\n");
@@ -300,6 +322,7 @@ main(int  argc,
         printf("Find inorder successor   : 9\n");
         printf("Find inorder predecessor : 10\n");
         printf("Find if is tree is BST   : 11\n");
+        printf("Find diameter of BST     : 12\n");
         printf("Delete a element         : 99\n");
         printf("Enter choice : ");
         scanf("%d", &choice);
@@ -401,6 +424,11 @@ main(int  argc,
                   printf("Tree is not BST!!!\n");
               }
               is_root = TRUE;
+              break;
+            case 12:
+              find_diameter(root, &diameter);
+              printf("Diameter of tree is %d\n", diameter);
+              diameter = 0;
               break;
             case 99:
               printf("Enter number to be deleted: ");
